@@ -1,28 +1,54 @@
+"use client";
 import { motion, AnimatePresence } from "framer-motion";
-import { navMenuHideVariants, navMenuShowVariants } from "./motion";
+import { navMenuShowVariantsFromLeft } from "../library/motion";
+import ThemeSwitcher from "./ThemeSwitcher";
+import Link from "next/link";
+import { useMediaQuery } from "../library/useMediaQuery";
 
-export default function NavMenu({ isOpenMenu }) {
+export default function NavMenu() {
+  const matches = useMediaQuery("(min-width: 675px)");
   return (
     <AnimatePresence>
       <motion.nav
-        variants={navMenuShowVariants}
-        initial='hidden'
-        animate='show'
-        exit='hidden'
-        className='fixed top-0 right-0 bg-slate-600 p-4 h-screen w-1/3'
+        variants={matches ? undefined : navMenuShowVariantsFromLeft}
+        initial="hidden"
+        animate="show"
+        exit="hidden"
+        className="h-90 fixed left-0 right-0 top-20 w-full bg-white p-2 px-3 dark:bg-gray-800"
       >
-        <ul className='flex flex-col items-center justify-center w-full text-2xl space-y-2 mt-32'>
-          <li className='w-full flex items-center justify-center p-6 dark:text-black text-white hover:bg-slate-500 hover:text-gray-300 transition duration-300'>
-            Home
-          </li>
-          <li className='w-full flex items-center justify-center p-6 dark:text-black text-white hover:bg-slate-500 hover:text-gray-300 transition duration-300'>
-            Home
-          </li>
-          <li className='w-full flex items-center justify-center p-6 dark:text-black text-white hover:bg-slate-500 hover:text-gray-300 transition duration-300'>
-            Home
-          </li>
-          <li className='w-full flex items-center justify-center p-6 dark:text-black text-white hover:bg-slate-500 hover:text-gray-300 transition duration-300'>
-            Home
+        <ul className="mt-8 flex w-full flex-col items-baseline justify-center space-y-3 overflow-hidden px-2 text-xs font-semibold">
+          <Link href="/">
+            <li className="flex w-full items-center justify-start py-2 text-black transition dark:text-white">
+              Home
+            </li>
+          </Link>
+          <Link href="/">
+            <li className="flex w-full items-center justify-start py-2 text-black transition dark:text-white">
+              Category
+            </li>
+          </Link>
+          <div className="mx-3 flex flex-col items-start justify-start gap-4 border-l-[1px] pl-6">
+            <Link href="/latest">
+              <div className="flex items-start dark:text-white">Latest</div>
+            </Link>
+            <div className="flex items-start dark:text-white">Tech</div>
+            <div className="flex items-start dark:text-white">Others</div>
+          </div>
+          <Link href="/myPost">
+            <li className="flex w-full items-center justify-start py-2 text-black transition dark:text-white">
+              My post
+            </li>
+          </Link>
+          <Link href="/post">
+            <li className="flex w-full items-center justify-start py-2 text-black transition dark:text-white">
+              Create post
+            </li>
+          </Link>
+          <li className=" box-border flex w-full items-center justify-between border-t-[1px] py-4 pr-2 text-black transition dark:text-white">
+            <Link href="login">
+              <div>Login</div>
+            </Link>
+            <ThemeSwitcher />
           </li>
         </ul>
       </motion.nav>
