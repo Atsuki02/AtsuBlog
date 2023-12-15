@@ -1,19 +1,29 @@
-"use client";
-
-import React from "react";
+import { signIn } from "@/app/auth";
+import CloseButton from "@/app/components/Button/CloseButton";
+import LoginForm from "@/app/components/Form/LoginForm";
+import { redirect } from "next/dist/server/api-utils";
+import React, { MouseEvent } from "react";
 
 export default function LoginModal() {
+  // const handleGoogleSignIn = async (event: MouseEvent<HTMLButtonElement>) => {
+  //   event.preventDefault();
+  //   await signIn("google", { redirect: false });
+  // };
   return (
     <div
       id="hs-modal-login"
-      className="hs-overlay fixed start-0 top-0 z-[60] hidden h-full w-full overflow-y-auto overflow-x-hidden"
+      className="hs-overlay fixed start-0 top-0 z-[60] h-full w-full overflow-y-auto overflow-x-hidden"
     >
-      <div className="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 m-3 mt-0 opacity-0 transition-all ease-out sm:mx-auto sm:w-full sm:max-w-lg">
+      <div className="relative m-3 mt-0 w-full opacity-100 transition-all ease-out hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 sm:mx-auto sm:w-full sm:max-w-lg">
+        <div className="absolute end-2 top-2">
+          <CloseButton />
+        </div>
+
         <div className="rounded-xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
           <div className="p-4 sm:p-7">
             <div className="text-center">
               <h2 className="block text-2xl font-bold text-gray-800 dark:text-gray-200">
-                Sign in
+                Log in
               </h2>
               <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
                 Don't have an account yet?
@@ -27,9 +37,10 @@ export default function LoginModal() {
             </div>
 
             <div className="mt-5">
-              <a
+              <button
+                // If I put the onClick function, it will somehow reload
+                type="button"
                 className="inline-flex w-full items-center justify-center gap-x-2 rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-gray-800 shadow-sm hover:bg-gray-50 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-700 dark:bg-slate-900 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                href="#"
               >
                 <svg
                   className="h-auto w-4"
@@ -55,125 +66,14 @@ export default function LoginModal() {
                     fill="#EB4335"
                   />
                 </svg>
-                Sign in with Google
-              </a>
+                Log in with Google
+              </button>
 
               <div className="flex items-center py-3 text-xs uppercase text-gray-400 before:me-6 before:flex-[1_1_0%] before:border-t before:border-gray-200 after:ms-6 after:flex-[1_1_0%] after:border-t after:border-gray-200 dark:text-gray-500 dark:before:border-gray-600 dark:after:border-gray-600">
                 Or
               </div>
 
-              <form>
-                <div className="grid gap-y-4">
-                  <div>
-                    <label
-                      htmlFor="email"
-                      className="mb-2 block text-sm dark:text-white"
-                    >
-                      Email address
-                    </label>
-                    <div className="relative">
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        className="block w-full rounded-lg border-gray-200 px-4 py-3 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-700 dark:bg-slate-900 dark:text-gray-400 dark:focus:ring-gray-600"
-                        required
-                        aria-describedby="email-error"
-                      />
-                      <div className="pointer-events-none absolute inset-y-0 end-0 flex hidden items-center pe-3">
-                        <svg
-                          className="h-5 w-5 text-red-500"
-                          width="16"
-                          height="16"
-                          fill="currentColor"
-                          viewBox="0 0 16 16"
-                          aria-hidden="true"
-                        >
-                          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
-                        </svg>
-                      </div>
-                    </div>
-                    <p
-                      className="mt-2 hidden text-xs text-red-600"
-                      id="email-error"
-                    >
-                      Please include a valid email address so we can get back to
-                      you
-                    </p>
-                  </div>
-
-                  <div>
-                    <div className="flex items-center justify-between">
-                      <label
-                        htmlFor="password"
-                        className="mb-2 block text-sm dark:text-white"
-                      >
-                        Password
-                      </label>
-                      <a
-                        className="text-sm font-medium text-blue-600 decoration-2 hover:underline dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                        href="../examples/html/modal-recover-account.html"
-                      >
-                        Forgot password?
-                      </a>
-                    </div>
-                    <div className="relative">
-                      <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        className="block w-full rounded-lg border-gray-200 px-4 py-3 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-700 dark:bg-slate-900 dark:text-gray-400 dark:focus:ring-gray-600"
-                        required
-                        aria-describedby="password-error"
-                      />
-                      <div className="pointer-events-none absolute inset-y-0 end-0 flex hidden items-center pe-3">
-                        <svg
-                          className="h-5 w-5 text-red-500"
-                          width="16"
-                          height="16"
-                          fill="currentColor"
-                          viewBox="0 0 16 16"
-                          aria-hidden="true"
-                        >
-                          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
-                        </svg>
-                      </div>
-                    </div>
-                    <p
-                      className="mt-2 hidden text-xs text-red-600"
-                      id="password-error"
-                    >
-                      8+ characters required
-                    </p>
-                  </div>
-
-                  <div className="flex items-center">
-                    <div className="flex">
-                      <input
-                        id="remember-me"
-                        name="remember-me"
-                        type="checkbox"
-                        className="pointer-events-none mt-0.5 shrink-0 rounded border-gray-200 text-blue-600 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:checked:border-blue-500 dark:checked:bg-blue-500 dark:focus:ring-offset-gray-800"
-                      />
-                    </div>
-                    <div className="ms-3">
-                      <label
-                        htmlFor="remember-me"
-                        className="text-sm dark:text-white"
-                      >
-                        Remember me
-                      </label>
-                    </div>
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="inline-flex w-full items-center justify-center gap-x-2 rounded-lg border border-transparent bg-blue-600 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-700 disabled:pointer-events-none disabled:opacity-50 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                  >
-                    Log in
-                  </button>
-                </div>
-              </form>
+              <LoginForm />
             </div>
           </div>
         </div>

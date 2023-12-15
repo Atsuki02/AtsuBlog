@@ -3,16 +3,51 @@ import Image from "next/image";
 import { greatVibes } from "./layout";
 import { useSelector } from "react-redux";
 import { RootState } from "./redux/store";
+import useSWR from "swr";
+import PostItem from "./components/Post/PostItem";
+import { Post } from "@prisma/client";
+import Loader from "./components/Loader/Loader";
+import Pagination from "./components/Pagination/Pagination";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
-export default function Home() {
-  const { isOpen } = useSelector((state: RootState) => state.nav);
+export default function Home({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  const router = useRouter();
+  const [searchURL, setSearchURL] = useState("");
+  const fetcher = (url: string) => fetch(url).then((res) => res.json());
+  const page = searchParams["page"] ?? "1";
+  const per_page = searchParams["per_page"] ?? "6";
+
+  const { data, isLoading } = useSWR(
+    `/api/blog?page=${page}&per_page=${per_page}${searchURL && searchURL}`,
+    fetcher,
+  );
+
+  const searchTermRef = useRef<HTMLInputElement>(null);
+  const handleSearch = async () => {
+    const searchTerm = searchTermRef.current
+      ? encodeURIComponent(searchTermRef.current.value)
+      : "";
+    if (searchTerm.length === 0) {
+      setSearchURL("");
+      return;
+    }
+
+    setSearchURL(`&search=${searchTerm}`);
+  };
+
+  // When the search query changes, set page to 1 and set new search query
+
+  useEffect(() => {
+    router.push(`/?page=1&per_page=${per_page}${searchURL}`);
+  }, [searchURL]);
 
   return (
-    <div
-      className={`min-h-screen-80 px-6 pb-28 pt-6 sm:py-28 ${
-        isOpen ? "visible bg-black bg-opacity-50" : ""
-      }`}
-    >
+    <div className="min-h-screen-minus-80 px-6 pb-28 pt-6 sm:py-28">
       <div className=" my-16 flex flex-col items-center justify-center sm:mt-8 sm:block">
         <p
           className={`${greatVibes.variable} text-text-neutral-800 font-title text-4xl font-bold tracking-widest dark:text-white sm:text-6xl`}
@@ -34,17 +69,17 @@ export default function Home() {
                 <span className="sr-only">Search article</span>
               </label>
               <input
-                type="email"
-                name="hs-search-article-1"
-                id="hs-search-article-1"
+                type="text"
                 className="block w-full rounded-lg border-transparent px-4 py-2.5 focus:border-blue-500 focus:ring-blue-500 dark:border-transparent dark:bg-slate-900 dark:text-gray-400 dark:focus:ring-gray-600"
                 placeholder="Search article"
+                ref={searchTermRef}
               />
             </div>
             <div className="flex-[0_0_auto]">
-              <a
+              <button
+                type="button"
                 className="inline-flex h-[46px] w-[46px] items-center justify-center gap-x-2 rounded-lg border border-transparent bg-blue-600 text-sm font-semibold text-white hover:bg-blue-700 disabled:pointer-events-none disabled:opacity-50 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                href="#"
+                onClick={handleSearch}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -55,182 +90,20 @@ export default function Home() {
                 >
                   <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                 </svg>
-              </a>
+              </button>
             </div>
           </div>
         </form>
       </div>
+      {isLoading && <Loader />}
       <div className="mx-auto mt-4 py-6 dark:text-slate-800 sm:mt-8">
         <div className="grid gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-3 xl:gap-8">
-          <a
-            href="#"
-            className="group relative flex h-48 flex-col overflow-hidden rounded-lg bg-gray-100 shadow-lg md:h-64 xl:h-96"
-          >
-            <Image
-              src="/image1.png"
-              alt="猫は最高に可愛い"
-              width="600"
-              height="360"
-              className="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110"
-            />
-
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-800 to-transparent md:via-transparent"></div>
-
-            <div className="relative mt-auto p-4">
-              <span className="block text-sm text-gray-200">July 19, 2021</span>
-              <h2 className="mb-2 text-xl font-semibold text-white transition duration-100">
-                New trends in Tech
-              </h2>
-
-              <span className="font-semibold text-indigo-300">Read more</span>
-            </div>
-          </a>
-
-          <a
-            href="#"
-            className="group relative flex h-48 flex-col overflow-hidden rounded-lg bg-gray-100 shadow-lg md:h-64 xl:h-96"
-          >
-            <Image
-              src="/image2.png"
-              alt="猫は最高に可愛い"
-              width="600"
-              height="360"
-              className="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110"
-            />
-
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-800 to-transparent md:via-transparent"></div>
-
-            <div className="relative mt-auto p-4">
-              <span className="block text-sm text-gray-200">
-                April 07, 2021
-              </span>
-              <h2 className="mb-2 text-xl font-semibold text-white transition duration-100">
-                Working with legacy stacks
-              </h2>
-
-              <span className="font-semibold text-indigo-300">Read more</span>
-            </div>
-          </a>
-
-          <a
-            href="#"
-            className="group relative flex h-48 flex-col overflow-hidden rounded-lg bg-gray-100 shadow-lg md:h-64 xl:h-96"
-          >
-            <Image
-              src="/image3.png"
-              alt="猫は最高に可愛い"
-              width="600"
-              height="360"
-              className="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110"
-            />
-
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-800 to-transparent md:via-transparent"></div>
-
-            <div className="relative mt-auto p-4">
-              <span className="block text-sm text-gray-200">
-                March 15, 2021
-              </span>
-              <h2 className="mb-2 text-xl font-semibold text-white transition duration-100">
-                10 best smartphones for devs
-              </h2>
-
-              <span className="font-semibold text-indigo-300">Read more</span>
-            </div>
-          </a>
-
-          <a
-            href="#"
-            className="group relative flex h-48 flex-col overflow-hidden rounded-lg bg-gray-100 shadow-lg md:h-64 xl:h-96"
-          >
-            <Image
-              src="/image4.png"
-              alt="猫は最高に可愛い"
-              width="600"
-              height="360"
-              className="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110"
-            />
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-800 to-transparent md:via-transparent"></div>
-
-            <div className="relative mt-auto p-4">
-              <span className="block text-sm text-gray-200">
-                January 27, 2021
-              </span>
-              <h2 className="mb-2 text-xl font-semibold text-white transition duration-100">
-                8 High performance Notebooks
-              </h2>
-
-              <span className="font-semibold text-indigo-300">Read more</span>
-            </div>
-          </a>
+          {data?.posts?.map((post: Post) => (
+            <PostItem key={post.id} post={post} />
+          ))}
         </div>
       </div>
-      <nav className="flex items-center justify-center gap-x-1 p-8">
-        <button
-          type="button"
-          className="inline-flex min-h-[38px] min-w-[38px] items-center justify-center gap-x-2 rounded-lg border border-transparent px-2.5 py-2 text-sm text-gray-800 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:border-transparent dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10"
-        >
-          <svg
-            className="h-3.5 w-3.5 flex-shrink-0"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="m15 18-6-6 6-6" />
-          </svg>
-          <span aria-hidden="true" className="sr-only">
-            Previous
-          </span>
-        </button>
-        <div className="flex items-center gap-x-1">
-          <button
-            type="button"
-            className="flex min-h-[38px] min-w-[38px] items-center justify-center rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-800 focus:bg-gray-50 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:border-gray-700 dark:text-white dark:focus:bg-white/10"
-            aria-current="page"
-          >
-            1
-          </button>
-          <button
-            type="button"
-            className="flex min-h-[38px] min-w-[38px] items-center justify-center rounded-lg border border-transparent px-3 py-2 text-sm text-gray-800 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:border-transparent dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10"
-          >
-            2
-          </button>
-          <button
-            type="button"
-            className="flex min-h-[38px] min-w-[38px] items-center justify-center rounded-lg border border-transparent px-3 py-2 text-sm text-gray-800 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:border-transparent dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10"
-          >
-            3
-          </button>
-        </div>
-        <button
-          type="button"
-          className="inline-flex min-h-[38px] min-w-[38px] items-center justify-center gap-x-2 rounded-lg border border-transparent px-2.5 py-2 text-sm text-gray-800 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:border-transparent dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10"
-        >
-          <span aria-hidden="true" className="sr-only">
-            Next
-          </span>
-          <svg
-            className="h-3.5 w-3.5 flex-shrink-0"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="m9 18 6-6-6-6" />
-          </svg>
-        </button>
-      </nav>
+      <Pagination totalPosts={data?.totalPosts} />
     </div>
   );
 }

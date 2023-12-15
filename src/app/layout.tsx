@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ThemeProviders from "../../ThemeProviders";
 import { ReduxProvider } from "./redux/Provider";
+import { SessionProvider } from "next-auth/react";
 import React from "react";
 import PrelineScript from "./components/PrelineScript";
 
@@ -22,10 +23,10 @@ const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  modal,
+  parallel,
   children,
 }: {
-  modal: React.ReactNode;
+  parallel: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
@@ -35,7 +36,7 @@ export default function RootLayout({
           <ThemeProviders>
             <div className="relative dark:bg-neutral-900">
               <Header />
-              {modal}
+              {parallel}
               {children}
               <Footer />
             </div>

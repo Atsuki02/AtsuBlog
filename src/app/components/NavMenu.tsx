@@ -1,9 +1,9 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
-import { navMenuShowVariantsFromLeft } from "../library/motion";
+import { navMenuShowVariantsFromLeft } from "../lib/motion";
 import ThemeSwitcher from "./ThemeSwitcher";
 import Link from "next/link";
-import { useMediaQuery } from "../library/useMediaQuery";
+import { useMediaQuery } from "../lib/useMediaQuery";
 
 export default function NavMenu() {
   const matches = useMediaQuery("(min-width: 675px)");
@@ -14,7 +14,7 @@ export default function NavMenu() {
         initial="hidden"
         animate="show"
         exit="hidden"
-        className="h-90 fixed left-0 right-0 top-20 w-full bg-white p-2 px-3 dark:bg-gray-800"
+        className="h-90 fixed left-0 right-0 top-20 z-50 w-full bg-white p-2 px-3 dark:bg-gray-800"
       >
         <ul className="mt-8 flex w-full flex-col items-baseline justify-center space-y-3 overflow-hidden px-2 text-xs font-semibold">
           <Link href="/">
@@ -45,7 +45,7 @@ export default function NavMenu() {
             </li>
           </Link>
           <li className=" box-border flex w-full items-center justify-between border-t-[1px] py-4 pr-2 text-black transition dark:text-white">
-            <Link href="login">
+            <Link href="/auth/login">
               <div>Login</div>
             </Link>
             <ThemeSwitcher />

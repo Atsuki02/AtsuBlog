@@ -1,4 +1,3 @@
-"use client";
 export default function Signup() {
   return (
     <div className="relative overflow-hidden px-6 pb-28 pt-6 sm:py-28">

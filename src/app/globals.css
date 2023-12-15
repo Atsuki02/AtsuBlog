@@ -5,3 +5,11 @@
 .min-h-screen-minus-80 {
   min-height: calc(100vh - 80px);
 }
+
+/* モーダルの背景 */
+.hs-overlay {
+  background-color: rgba(0, 0, 0, 0.5); /* 半透明の黒色 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

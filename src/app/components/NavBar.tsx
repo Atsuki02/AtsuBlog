@@ -23,7 +23,7 @@ export default function NavBar() {
         <div
           className={
             isOpen
-              ? "h-[0.2rem] w-7 translate-y-[7.5px] rotate-45 bg-white transition-all duration-100 dark:bg-slate-800 sm:h-[0.2rem] sm:w-7 sm:translate-y-[0.6rem]"
+              ? "dark:white h-[0.2rem] w-7 translate-y-[7.5px] rotate-45 bg-white transition-all duration-100 sm:h-[0.2rem] sm:w-7 sm:translate-y-[0.6rem]"
               : "h-[0.2rem] w-7 bg-white dark:bg-slate-800 sm:h-[0.2rem] sm:w-7"
           }
         />
@@ -37,11 +37,15 @@ export default function NavBar() {
         <div
           className={
             isOpen
-              ? "h-[0.2rem] w-7 -translate-y-[7.5px] -rotate-45 bg-white transition-all duration-100 dark:bg-slate-800 sm:h-[0.2rem] sm:w-7 sm:-translate-y-[0.6rem]"
+              ? "dark:white h-[0.2rem] w-7 -translate-y-[7.5px] -rotate-45 bg-white transition-all duration-100 sm:h-[0.2rem] sm:w-7 sm:-translate-y-[0.6rem]"
               : "h-[0.2rem] w-7 bg-white dark:bg-slate-800 sm:h-[0.2rem] sm:w-7"
           }
         />
       </div>
+
+      {isOpen && (
+        <div className="fixed start-0 top-0 z-40 flex h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden bg-black opacity-50"></div>
+      )}
     </>
   );
 }

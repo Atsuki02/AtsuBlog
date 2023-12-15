@@ -7,11 +7,7 @@ export default function Post() {
   const { isOpen } = useSelector((state: RootState) => state.nav);
 
   return (
-    <div
-      className={`min-h-screen-80 px-6 pb-28 pt-6 sm:py-28 ${
-        isOpen ? "visible bg-black bg-opacity-50" : ""
-      }`}
-    >
+    <div className="min-h-screen-80 px-6 pb-48 pt-28 sm:py-48">
       <div className="mx-auto max-w-2xl">
         <div className="mx-4 flex justify-between">
           {/* when creating new post */}

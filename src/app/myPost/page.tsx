@@ -8,11 +8,7 @@ export default function MyPost() {
   const { isOpen } = useSelector((state: RootState) => state.nav);
 
   return (
-    <div
-      className={`min-h-screen-minus-80 px-6 py-28 pb-48  ${
-        isOpen ? "visible bg-black bg-opacity-50" : ""
-      }`}
-    >
+    <div className="min-h-screen-minus-80 px-6 py-28 pb-48">
       <div className="grid gap-6 lg:grid-cols-2">
         <a
           className="group relative block rounded-xl dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"

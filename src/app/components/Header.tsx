@@ -6,16 +6,18 @@ import ThemeSwitcher from "./ThemeSwitcher";
 import Link from "next/link";
 import NavMenu from "./NavMenu";
 import { greatVibes } from "../layout";
-import { useMediaQuery } from "../library/useMediaQuery";
+import { useMediaQuery } from "../lib/useMediaQuery";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
+import { usePathname } from "next/navigation";
 
 function Header() {
   const matches = useMediaQuery("(min-width: 675px)");
+  const path = usePathname();
   const { isOpen } = useSelector((state: RootState) => state.nav);
 
   return (
-    <div className="sticky left-0 right-0 top-0 z-50 flex h-20 w-full justify-between bg-slate-600 p-6 shadow-xl">
+    <div className="sticky left-0 right-0 top-0 z-30 flex h-20 w-full justify-between bg-slate-600 p-6 shadow-xl">
       <div className="flex flex-row items-center">
         <NavBar />
         {matches && <ThemeSwitcher />}
@@ -30,7 +32,7 @@ function Header() {
         </Link>
       </div>
       <div className="flex items-center justify-between gap-2">
-        {matches && (
+        {path !== "/auth/login" && matches && (
           <Link href="/auth/login">
             <button
               type="button"
@@ -40,14 +42,17 @@ function Header() {
             </button>
           </Link>
         )}
-        <Link href="/auth/signup">
-          <button
-            type="button"
-            className="inline-flex items-center gap-x-2 rounded-lg border border-gray-200 bg-white p-2 text-xs font-medium text-gray-800 shadow-sm hover:bg-gray-50 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-700 dark:bg-slate-900 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 sm:mr-8 sm:px-4 sm:py-2.5 sm:text-sm"
-          >
-            Sign Up
-          </button>
-        </Link>
+
+        {path !== "/auth/signup" && (
+          <Link href="/auth/signup">
+            <button
+              type="button"
+              className="inline-flex items-center gap-x-2 rounded-lg border border-gray-200 bg-white p-2 text-xs font-medium text-gray-800 shadow-sm hover:bg-gray-50 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-700 dark:bg-slate-900 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 sm:mr-8 sm:px-4 sm:py-2.5 sm:text-sm"
+            >
+              Sign Up
+            </button>
+          </Link>
+        )}
 
         {isOpen && <NavMenu />}
       </div>

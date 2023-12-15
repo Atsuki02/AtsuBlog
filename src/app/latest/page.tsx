@@ -8,11 +8,7 @@ export default function Latest() {
   const { isOpen } = useSelector((state: RootState) => state.nav);
 
   return (
-    <div
-      className={`min-h-screen-minus-80 px-6 pb-28 pt-6 sm:py-28 ${
-        isOpen ? "visible bg-black bg-opacity-50" : ""
-      }`}
-    >
+    <div className="min-h-screen-minus-80 px-6 pb-28 pt-6 sm:py-28">
       <div className="mx-auto my-10 max-w-2xl text-center lg:mb-14 lg:mt-0 ">
         <h2 className="text-xl font-bold dark:text-white md:text-4xl md:leading-tight">
           Read the latest articles
