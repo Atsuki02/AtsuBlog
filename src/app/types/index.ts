@@ -43,3 +43,17 @@ export interface Comment {
   userId: number;
   createdAt: Date;
 }
+
+export type PostFields = {
+  title: string;
+  subTitle: string;
+  image: File | null;
+  category: string;
+  content: string;
+};
+
+export type PostFormState = {
+  message: string;
+  errors: Record<keyof PostFields, string> | undefined;
+  fieldValues: PostFields;
+};

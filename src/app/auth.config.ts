@@ -13,7 +13,6 @@ export const authConfig = {
       const isLoggedIn = !!auth?.user;
       const isHome = nextUrl.pathname.startsWith("/");
       if (isHome) {
-        console.log(isHome);
         if (isLoggedIn) return true;
         return false; // Redirect unauthenticated users to login page
       } else if (isLoggedIn) {
@@ -45,16 +44,16 @@ export const authConfig = {
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      profile(profile) {
-        return {
-          id: profile.sub,
-          name: profile.name,
-          email: profile.email,
-          image: profile.picture,
-          provider: "google",
-          role: "user",
-        };
-      },
+      // profile(profile) {
+      //   return {
+      //     id: profile.sub,
+      //     name: profile.name,
+      //     email: profile.email,
+      //     image: profile.picture,
+      //     provider: "google",
+      //     role: "user",
+      //   };
+      // },
     }),
     CredentialsProvider({
       name: "Credentials",

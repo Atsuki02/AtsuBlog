@@ -1,12 +1,12 @@
 import React from "react";
 
-export default function signOutModal() {
+export default function SignOutModal() {
   return (
     <div
       id="hs-sign-out-alert"
       className="hs-overlay fixed start-0 top-0 z-[60] hidden h-full w-full overflow-y-auto overflow-x-hidden"
     >
-      <div className="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 m-3 mt-0 opacity-0 transition-all ease-out sm:mx-auto sm:w-full sm:max-w-lg">
+      <div className="m-3 mt-0 opacity-0 transition-all ease-out hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 sm:mx-auto sm:w-full sm:max-w-lg">
         <div className="relative flex flex-col rounded-xl bg-white shadow-lg dark:bg-gray-800">
           <div className="absolute end-2 top-2">
             <button

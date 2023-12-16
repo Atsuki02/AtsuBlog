@@ -2,6 +2,14 @@ import prisma, { main } from "@/utils/prisma";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 
+// import cloudinary from "next-cloudinary";
+
+// cloudinary.config({
+//   cloud_name: "YOUR_CLOUD_NAME",
+//   api_key: "YOUR_API_KEY",
+//   api_secret: "YOUR_API_SECRET",
+// });
+
 // const prisma = new PrismaClient();
 
 // export async function main() {
@@ -29,7 +37,6 @@ import { NextResponse } from "next/server";
 // Get Posts per page
 
 export const GET = async (req: Request, res: NextResponse) => {
-  console.log(req.url);
   // get page query
   const queryPage = req.url.split("&")[0];
   const pageIndex = queryPage.indexOf("=") + 1;
@@ -89,9 +96,9 @@ export const POST = async (req: Request, res: NextResponse) => {
       data: {
         title,
         subTitle,
-        content,
         image,
         category,
+        content,
         userId: numericUserId,
       },
     });

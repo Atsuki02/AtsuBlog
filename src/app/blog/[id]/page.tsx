@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 import useSWR from "swr";
 
 export default function Blog({ params }: { params: { id: string } }) {
-  const fetcher = (...args: [any]) => fetch(...args).then((res) => res.json());
+  const fetcher = (url: string) => fetch(url).then((res) => res.json());
   const { data: post, isLoading: isLoadingBlog } = useSWR(
     `/api/blog/${params.id}`,
     fetcher,
@@ -21,8 +21,6 @@ export default function Blog({ params }: { params: { id: string } }) {
   const readingTime = calculateReadingTime(post?.post?.content);
   const pathname = usePathname();
   const formattedDate = formatDate(new Date(post?.post?.date));
-  console.log(post);
-  console.log(user);
 
   return (
     <>

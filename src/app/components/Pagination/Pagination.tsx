@@ -4,18 +4,16 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React, { FC } from "react";
 
 interface PaginationProps {
+  path?: string;
   totalPosts: number;
 }
 
-const Pagination: FC<PaginationProps> = ({ totalPosts }) => {
+const Pagination: FC<PaginationProps> = ({ path = "", totalPosts }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const page = searchParams.get("page") ?? "1";
   const per_page = searchParams.get("per_page") ?? "6";
-  console.log(totalPosts);
   const totalPages = Math.ceil(totalPosts / Number(per_page));
-
-  console.log(totalPages);
 
   const hasPrevPage = Number(page) > 1;
   const hasNextPage = Number(page) < totalPages;
@@ -28,7 +26,9 @@ const Pagination: FC<PaginationProps> = ({ totalPosts }) => {
           disabled={!hasPrevPage}
           className="inline-flex min-h-[38px] min-w-[38px] items-center justify-center gap-x-2 rounded-lg border border-transparent px-2.5 py-2 text-sm text-gray-800 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:border-transparent dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10"
           onClick={() => {
-            router.push(`/?page=${Number(page) - 1}&per_page=${per_page}`);
+            router.push(
+              `/${path}?page=${Number(page) - 1}&per_page=${per_page}`,
+            );
           }}
         >
           <svg
@@ -56,7 +56,9 @@ const Pagination: FC<PaginationProps> = ({ totalPosts }) => {
             type="button"
             className="flex min-h-[38px] min-w-[38px] items-center justify-center rounded-lg border border-transparent px-3 py-2 text-sm text-gray-800 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:border-transparent dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10"
             onClick={() =>
-              router.push(`/?page=${Number(page) - 1}&per_page=${per_page}`)
+              router.push(
+                `/${path}?page=${Number(page) - 1}&per_page=${per_page}`,
+              )
             }
           >
             {Number(page) - 1}
@@ -74,7 +76,9 @@ const Pagination: FC<PaginationProps> = ({ totalPosts }) => {
             type="button"
             className="flex min-h-[38px] min-w-[38px] items-center justify-center rounded-lg border border-transparent px-3 py-2 text-sm text-gray-800 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:border-transparent dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10"
             onClick={() =>
-              router.push(`/?page=${Number(page) + 1}&per_page=${per_page}`)
+              router.push(
+                `/${path}?page=${Number(page) + 1}&per_page=${per_page}`,
+              )
             }
           >
             {Number(page) + 1}
@@ -85,7 +89,9 @@ const Pagination: FC<PaginationProps> = ({ totalPosts }) => {
             type="button"
             className="flex min-h-[38px] min-w-[38px] items-center justify-center rounded-lg border border-transparent px-3 py-2 text-sm text-gray-800 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:border-transparent dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10"
             onClick={() =>
-              router.push(`/?page=${Number(page) + 1}&per_page=${per_page}`)
+              router.push(
+                `/${path}?page=${Number(page) + 1}&per_page=${per_page}`,
+              )
             }
           >
             {Number(page) + 2}
@@ -98,7 +104,9 @@ const Pagination: FC<PaginationProps> = ({ totalPosts }) => {
           disabled={!hasNextPage}
           className="inline-flex min-h-[38px] min-w-[38px] items-center justify-center gap-x-2 rounded-lg border border-transparent px-2.5 py-2 text-sm text-gray-800 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:border-transparent dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10"
           onClick={() => {
-            router.push(`/?page=${Number(page) + 1}&per_page=${per_page}`);
+            router.push(
+              `/${path}?page=${Number(page) + 1}&per_page=${per_page}`,
+            );
           }}
         >
           <span aria-hidden="true" className="sr-only">

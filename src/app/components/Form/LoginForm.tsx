@@ -14,7 +14,7 @@ interface Errors {
   password?: string;
 }
 
-async function LoginForm() {
+function LoginForm() {
   const ref = useRef<HTMLFormElement>(null);
   const { pending } = useFormStatus();
   const [errorMessage, dispatch] = useFormState(authenticate, undefined);
