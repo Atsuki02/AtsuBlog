@@ -1,8 +1,9 @@
 "use server";
 
 import { PostFields, PostFormState } from "@/app/types";
-import blogPostSchema from "@/utils/zodShema";
+
 import { ZodError } from "zod";
+import blogPostSchema from "../utils/zod/blogPostSchema";
 
 // sign in func
 export const submitForm = async (FormData: FormData) => {

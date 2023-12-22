@@ -1,8 +1,8 @@
 "use client";
 import React, { ChangeEvent, useRef, useState } from "react";
-import { submitForm } from "../../../../actions/formAction";
+import { submitForm } from "../../actions/formAction";
 import SignUpButton from "../Button/SignUpButton";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 interface Errors {
   username?: string;
@@ -24,7 +24,7 @@ function SignUpForm() {
     }
   };
 
-  const submitFormHandler = async (formData: FormData) => {
+  const submitFormHandler = async  (formData: FormData) => {
     setErrors({});
 
     let newErrors: Errors = {};
@@ -55,7 +55,8 @@ function SignUpForm() {
       ref.current?.reset();
 
       //TODO I'd like to navigate to root directory and dismiss a modal, but catch-all seems to be not working
-      router.push("/");
+      router.push("/",);
+
     }
   };
 

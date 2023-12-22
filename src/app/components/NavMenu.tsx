@@ -45,8 +45,8 @@ export default function NavMenu() {
             </li>
           </Link>
           <li className=" box-border flex w-full items-center justify-between border-t-[1px] py-4 pr-2 text-black transition dark:text-white">
-            <Link href="/auth/login">
-              <div>Login</div>
+            <Link href="/auth/signin">
+              <div>Signin</div>
             </Link>
             <ThemeSwitcher />
           </li>

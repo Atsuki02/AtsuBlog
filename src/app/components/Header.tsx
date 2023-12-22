@@ -32,8 +32,8 @@ function Header() {
         </Link>
       </div>
       <div className="flex items-center justify-between gap-2">
-        {path !== "/auth/login" && matches && (
-          <Link href="/auth/login">
+        {path !== "/auth/signin" && matches && (
+          <Link href="/auth/signin">
             <button
               type="button"
               className="mr-4 inline-flex items-center gap-x-2 rounded-lg border border-gray-200  px-4 py-2.5 text-sm font-medium text-white shadow-sm disabled:pointer-events-none disabled:opacity-50 dark:border-white dark:text-white  dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"

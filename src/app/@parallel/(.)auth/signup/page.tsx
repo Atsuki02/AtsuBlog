@@ -1,9 +1,20 @@
+'use client'
 import CloseButton from "@/app/components/Button/CloseButton";
 import SignUpForm from "@/app/components/Form/SignUpForm";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 export default function SignUpModal() {
+  
+  // TODO: remove this when [...catchAll] works
+  // After Signing in, the page is supposed to navigate to root directory and dismiss the modal,
+  // but the modal is not working, so this is a temp solution
+  const pathname = usePathname();
+  if (!pathname.includes('auth')) {
+    return null;
+  }
+
   return (
     <div
       id="hs-modal-signup"
@@ -21,7 +32,7 @@ export default function SignUpModal() {
               </h2>
               <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
                 Already have an account?
-                <Link href="/auth/login">
+                <Link href="/auth/signin">
                   <span className="font-medium text-blue-600 decoration-2 hover:underline dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                     Sign in here
                   </span>

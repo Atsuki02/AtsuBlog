@@ -1,6 +1,33 @@
+"use client";
+import authenticate from "@/app/actions/signinAction";
 import Link from "next/link";
+import { useEffect, useRef } from "react";
+import { useFormState, useFormStatus } from "react-dom";
 
-export default function Login() {
+export default function Signin() {
+  const ref = useRef<HTMLFormElement>(null);
+  const { pending } = useFormStatus();
+
+  const [formState, formAction] = useFormState(authenticate, {
+    message: "",
+    errors: undefined,
+    fieldValues: {
+      email: "",
+      password: "",
+      rememberMe: "",
+    },
+  });
+
+  console.log(formState);
+
+  const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    if (formState?.message === "success") {
+      formRef.current?.reset();
+    }
+  }, [formState]);
+
   return (
     <div className="min-h-screen-minus-80 flex items-center bg-gray-100  pb-28  dark:bg-slate-900 sm:pb-28">
       <div className="mx-auto w-full max-w-md p-4">
@@ -8,7 +35,7 @@ export default function Login() {
           <div className="p-4 sm:p-7">
             <div className="text-center">
               <h1 className="block text-2xl font-bold text-gray-800 dark:text-white">
-                Log in
+                Sign in
               </h1>
               <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
                 Don't have an account yet?
@@ -49,14 +76,14 @@ export default function Login() {
                     fill="#EB4335"
                   />
                 </svg>
-                Log in with Google
+                Sign in with Google
               </button>
 
               <div className="flex items-center py-3 text-xs uppercase text-gray-400 before:me-6 before:flex-[1_1_0%] before:border-t before:border-gray-200 after:ms-6 after:flex-[1_1_0%] after:border-t after:border-gray-200 dark:text-gray-500 dark:before:border-gray-600 dark:after:border-gray-600">
                 Or
               </div>
 
-              <form>
+              <form ref={ref} action={formAction}>
                 <div className="grid gap-y-4">
                   <div>
                     <label
@@ -146,7 +173,7 @@ export default function Login() {
                     <div className="flex">
                       <input
                         id="remember-me"
-                        name="remember-me"
+                        name="rememberMe"
                         type="checkbox"
                         className="pointer-events-none mt-0.5 shrink-0 rounded border-gray-200  text-blue-600 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:checked:border-blue-500 dark:checked:bg-blue-500 dark:focus:ring-offset-gray-800"
                       />
@@ -165,7 +192,7 @@ export default function Login() {
                     type="submit"
                     className="inline-flex w-full items-center justify-center gap-x-2 rounded-lg border border-transparent bg-blue-600 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-700 disabled:pointer-events-none disabled:opacity-50 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                   >
-                    Log in
+                    Sign in
                   </button>
                 </div>
               </form>

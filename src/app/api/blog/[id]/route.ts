@@ -1,4 +1,4 @@
-import prisma from "@/utils/prisma";
+import prisma from "@/app/utils/prisma";
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 // import { main } from "../route";

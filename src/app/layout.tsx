@@ -1,3 +1,4 @@
+
 import "./globals.css";
 import type { Metadata } from "next";
 import { Great_Vibes, Inter } from "next/font/google";
@@ -8,6 +9,7 @@ import { ReduxProvider } from "./redux/Provider";
 import { SessionProvider } from "next-auth/react";
 import React from "react";
 import PrelineScript from "./components/PrelineScript";
+import { SessionProviders } from "./SessionProviders";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +24,7 @@ const metadata: Metadata = {
   description: "Blog created by Atsuki",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   parallel,
   children,
 }: {
@@ -32,16 +34,18 @@ export default function RootLayout({
   return (
     <html lang="en" className="light" style={{ colorScheme: "light" }}>
       <body className={inter.className}>
-        <ReduxProvider>
-          <ThemeProviders>
-            <div className="relative dark:bg-neutral-900">
-              <Header />
-              {parallel}
-              {children}
-              <Footer />
-            </div>
-          </ThemeProviders>
-        </ReduxProvider>
+        <SessionProviders>
+          <ReduxProvider>
+            <ThemeProviders>
+              <div className="relative dark:bg-neutral-900">
+                <Header />
+                {parallel}
+                {children}
+                <Footer />
+              </div>
+            </ThemeProviders>
+          </ReduxProvider>
+        </SessionProviders>
       </body>
       <PrelineScript />
     </html>

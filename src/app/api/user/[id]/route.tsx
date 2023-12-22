@@ -1,5 +1,5 @@
 import { db } from "@/app/lib/db";
-import prisma from "@/utils/prisma";
+import prisma from "@/app/utils/prisma";
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 // import { main } from "../../blog/route";

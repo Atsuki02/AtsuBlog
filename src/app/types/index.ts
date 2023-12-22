@@ -57,3 +57,15 @@ export type PostFormState = {
   errors: Record<keyof PostFields, string> | undefined;
   fieldValues: PostFields;
 };
+
+export type SigninFields = {
+  email: string;
+  password: string;
+  rememberMe: string;
+};
+
+export type SigninFormState = {
+  message: string;
+  errors: Record<keyof SigninFields, string> | undefined;
+  fieldValues: SigninFields;
+};

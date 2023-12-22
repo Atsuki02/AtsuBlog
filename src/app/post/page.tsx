@@ -2,7 +2,7 @@
 import { ExclamationCircleIcon } from "@heroicons/react/24/solid";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
-import { submitPostAction } from "../../../actions/formAction";
+import { submitPostAction } from "../actions/formAction";
 import clsx from "clsx";
 import DeleteButton from "../components/Button/DeleteButton";
 import CreateButton from "../components/Button/CreateButton";

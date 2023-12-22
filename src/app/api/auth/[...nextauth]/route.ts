@@ -1,96 +1,80 @@
-// import CredentialsProvider from "next-auth/providers/credentials";
-// import GoogleProvider from "next-auth/providers/google";
 
-import { authConfig } from "@/app/auth.config";
-import NextAuth from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
+import { db } from "@/app/lib/db";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import nextAuth, { AuthOptions } from "next-auth";
+import { compare } from "bcrypt";
 
-// import { compare } from "bcrypt";
-// import { PrismaAdapter } from "@auth/prisma-adapter";
-// import { db } from "@/app/lib/db";
-// import NextAuth from "next-auth";
+export const authOptions: AuthOptions = {
+  adapter: PrismaAdapter(db),
+  providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    }),
+    CredentialsProvider({
+      name: "credentials",
+      credentials: {
+        email: {},
+        password: {},
+      },
+      async authorize(credentials, req) {
+        console.log(credentials, req);
 
-// export const authOptions = {
-//   adapter: PrismaAdapter(db),
-//   secret: process.env.NEXTAUTH_SECRET,
-//   session: {
-//     strategy: "jwt",
-//   },
-//   pages: {
-//     signIn: "/auth/login",
-//   },
-//   providers: [
-//     GoogleProvider({
-//       clientId: process.env.GOOGLE_CLIENT_ID,
-//       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-//     }),
-//     CredentialsProvider({
-//       name: "Credentials",
+        if (!credentials?.email || !credentials?.password) return null;
 
-//       credentials: {
-//         email: {
-//           label: "Email",
-//           type: "email",
-//         },
-//         password: { label: "Password", type: "password" },
-//       },
-//       async authorize(credentials) {
-//         console.log(credentials);
-//         if (!credentials?.email || !credentials?.password) {
-//           throw new Error("Email and Password are required.");
-//         }
+        const user = await db.user.findUnique({
+          where: { email: credentials.email },
+        });
 
-//         try {
-//           const existingUser = await db.user.findUnique({
-//             where: { email: credentials?.email },
-//           });
-//           if (!existingUser) {
-//             throw new Error("User not found.");
-//           }
+        if (!user || !user.password) return null;
 
-//           const passwordMatch = await compare(
-//             credentials.password,
-//             existingUser.password,
-//           );
+        const isPasswordCorrect = await compare(
+          credentials.password,
+          user.password,
+        );
 
-//           if (!passwordMatch) {
-//             throw new Error("Incorrect password.");
-//           }
+        if (!isPasswordCorrect) return null;
 
-//           return {
-//             id: `${existingUser.id}`,
-//             username: existingUser.username,
-//             email: existingUser.email,
-//           };
-//         } catch (error) {
-//           console.error(error);
-//           return null;
-//         }
-//       },
-//     }),
-//   ],
-//   callbacks: {
-//     jwt: ({ token, user }) => {
-//       if (user) {
-//         return {
-//           ...token,
-//           username: user.username,
-//         };
-//       }
-//       return token;
-//     },
-//     session: ({ session, user, token }) => {
-//       return {
-//         ...session,
-//         user: {
-//           ...session.user,
-//           username: token.username,
-//         },
-//       };
-//     },
-//   },
-// };
+        return {
+          id: user.id.toString(),
+          email: user.email,
+          username: user.username,
+          
+        };
+      },
+    }),
+  ],
+  callbacks: {
+    session: ({session, token}) => {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id,
+        }
+      }
+    },
+    jwt: ({token, user}) => {
+      if(user) {
+        return {
+          ...token,
+          id: user.id
+        }
+      }
+      return token
+    }
+  },
+  pages: {
+    signIn: "/auth/signin",
+  },
+  // debug: process.env.NODE_ENV === "development",
+  session: {
+    strategy: "jwt",
+  },
+  secret: process.env.NEXTAUTH_SECRET,
+};
 
-const handler = NextAuth(authConfig);
+const handler = nextAuth(authOptions);
 export { handler as GET, handler as POST };
-
-// export const option

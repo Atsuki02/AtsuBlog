@@ -9,6 +9,14 @@ const nextConfig = {
   images: {
     domains: ["res.cloudinary.com"],
   },
+  experimental: {
+    serverComponentsExternalPackages: ["@prisma.client", "bcrypt"],
+  },
+
+  webpack: (config) => {
+    config.externals = [...config.externals, "bcrypt"];
+    return config;
+  },
 };
 
 module.exports = nextConfig;
