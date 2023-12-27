@@ -2,7 +2,10 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
-import HSStaticMethods from "preline/preline";
+
+declare var HSStaticMethods: {
+  autoInit(collection?: string | string[]): void;
+};
 
 export default function PrelineScript() {
   const path = usePathname();
@@ -13,7 +16,6 @@ export default function PrelineScript() {
 
   useEffect(() => {
     setTimeout(() => {
-      // @ts-ignore
       HSStaticMethods.autoInit();
     }, 100);
   }, [path]);

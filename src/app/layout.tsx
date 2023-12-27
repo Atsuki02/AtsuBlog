@@ -7,9 +7,10 @@ import ThemeProviders from "../../ThemeProviders";
 import { ReduxProvider } from "./redux/Provider";
 import { SessionProvider } from "next-auth/react";
 import React from "react";
-import PrelineScript from "./components/PrelineScript";
+
 import { SessionProviders } from "./SessionProviders";
 import { getCurrentUser } from "./actions/getCurrentUser";
+import PrelineScript from "./components/PrelineScript";
 
 const inter = Inter({ subsets: ["latin"] });
 
