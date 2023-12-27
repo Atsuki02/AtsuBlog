@@ -10,18 +10,14 @@ import Pagination from "./Pagination/Pagination";
 import { CurrentUser } from "../types";
 
 interface TopBlogSectionProps {
-  searchParams: { [key: string]: string | string[] | undefined }
-  currentUser: CurrentUser | null
+  searchParams: { [key: string]: string | string[] | undefined };
+  currentUser: CurrentUser | null;
 }
-
 
 export function TopBlogSection({
   searchParams,
-  currentUser
+  currentUser,
 }: TopBlogSectionProps) {
-
-
-
   const router = useRouter();
   const [searchURL, setSearchURL] = useState("");
   const fetcher = (url: string) => fetch(url).then((res) => res.json());

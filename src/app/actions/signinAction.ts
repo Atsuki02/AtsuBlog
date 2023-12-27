@@ -62,7 +62,7 @@ export default async function authenticate(
       redirect: false,
     });
 
-    console.log('dd')
+    console.log("dd");
 
     // If the sign-in is successful, return a success message and field values
     return {

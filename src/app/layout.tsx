@@ -1,4 +1,3 @@
-
 import "./globals.css";
 import type { Metadata } from "next";
 import { Great_Vibes, Inter } from "next/font/google";
@@ -32,8 +31,7 @@ export default async function RootLayout({
   parallel: React.ReactNode;
   children: React.ReactNode;
 }) {
-
-  const currentUser = await getCurrentUser()
+  const currentUser = await getCurrentUser();
 
   return (
     <html lang="en" className="light" style={{ colorScheme: "light" }}>
@@ -42,7 +40,7 @@ export default async function RootLayout({
           <ReduxProvider>
             <ThemeProviders>
               <div className="relative dark:bg-neutral-900">
-                <Header  currentUser={currentUser}/>
+                <Header currentUser={currentUser} />
                 {parallel}
                 {children}
                 <Footer />

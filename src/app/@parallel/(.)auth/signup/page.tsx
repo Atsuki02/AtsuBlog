@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import CloseButton from "@/app/components/Button/CloseButton";
 import SignUpForm from "@/app/components/Form/SignUpForm";
 import Link from "next/link";
@@ -6,12 +6,11 @@ import { usePathname } from "next/navigation";
 import React from "react";
 
 export default function SignUpModal() {
-  
   // TODO: remove this when [...catchAll] works
   // After Signing in, the page is supposed to navigate to root directory and dismiss the modal,
   // but the modal is not working, so this is a temp solution
   const pathname = usePathname();
-  if (!pathname.includes('auth')) {
+  if (!pathname.includes("auth")) {
     return null;
   }
 

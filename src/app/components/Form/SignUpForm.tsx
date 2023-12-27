@@ -24,7 +24,7 @@ function SignUpForm() {
     }
   };
 
-  const submitFormHandler = async  (formData: FormData) => {
+  const submitFormHandler = async (formData: FormData) => {
     setErrors({});
 
     let newErrors: Errors = {};
@@ -55,8 +55,7 @@ function SignUpForm() {
       ref.current?.reset();
 
       //TODO I'd like to navigate to root directory and dismiss a modal, but catch-all seems to be not working
-      router.push("/",);
-
+      router.push("/");
     }
   };
 

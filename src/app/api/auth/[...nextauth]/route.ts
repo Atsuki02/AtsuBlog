@@ -1,4 +1,3 @@
-
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { db } from "@/app/lib/db";
@@ -41,30 +40,29 @@ export const authOptions: AuthOptions = {
           id: user.id.toString(),
           email: user.email,
           username: user.username,
-          
         };
       },
     }),
   ],
   callbacks: {
-    session: ({session, token}) => {
+    session: ({ session, token }) => {
       return {
         ...session,
         user: {
           ...session.user,
           id: token.id,
-        }
-      }
+        },
+      };
     },
-    jwt: ({token, user}) => {
-      if(user) {
+    jwt: ({ token, user }) => {
+      if (user) {
         return {
           ...token,
-          id: user.id
-        }
+          id: user.id,
+        };
       }
-      return token
-    }
+      return token;
+    },
   },
   pages: {
     signIn: "/auth/signin",
