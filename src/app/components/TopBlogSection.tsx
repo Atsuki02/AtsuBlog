@@ -7,13 +7,19 @@ import Loader from "./Loader/Loader";
 import { Post } from "@prisma/client";
 import PostItem from "./Post/PostItem";
 import Pagination from "./Pagination/Pagination";
+import { CurrentUser } from "../types";
+
+interface TopBlogSectionProps {
+  searchParams: { [key: string]: string | string[] | undefined }
+  currentUser: CurrentUser | null
+}
 
 
 export function TopBlogSection({
   searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
+  currentUser
+}: TopBlogSectionProps) {
+
 
 
   const router = useRouter();

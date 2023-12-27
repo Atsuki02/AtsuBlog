@@ -9,12 +9,22 @@ import { greatVibes } from "../layout";
 import { useMediaQuery } from "../lib/useMediaQuery";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { CurrentUser } from "../types";
+import { signOut, useSession } from "next-auth/react";
 
-function Header() {
+function Header({currentUser}: {currentUser: CurrentUser | null}) {
   const matches = useMediaQuery("(min-width: 675px)");
   const path = usePathname();
+  const { data: session, status } = useSession();
+  const isAuthenticated = status === 'authenticated';
   const { isOpen } = useSelector((state: RootState) => state.nav);
+  const router = useRouter()
+
+  const handleLogOut = () => {
+    signOut();
+    router.push('/');
+  }
 
   return (
     <div className="sticky left-0 right-0 top-0 z-30 flex h-20 w-full justify-between bg-slate-600 p-6 shadow-xl">
@@ -31,8 +41,23 @@ function Header() {
           </p>
         </Link>
       </div>
+      
       <div className="flex items-center justify-between gap-2">
-        {path !== "/auth/signin" && matches && (
+        {isAuthenticated && (
+          <>
+            <button
+              onClick={handleLogOut}
+             type="button"
+             className="mr-4 inline-flex items-center gap-x-2 rounded-lg border border-gray-200  px-4 py-2.5 text-sm font-medium text-white shadow-sm disabled:pointer-events-none disabled:opacity-50 dark:border-white dark:text-white  dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+           >
+             Log out
+           </button>
+
+           
+          </>
+         
+        )}
+        {!isAuthenticated && path !== "/auth/signin" && matches && (
           <Link href="/auth/signin">
             <button
               type="button"
@@ -43,7 +68,7 @@ function Header() {
           </Link>
         )}
 
-        {path !== "/auth/signup" && (
+        {!isAuthenticated && path !== "/auth/signup" && (
           <Link href="/auth/signup">
             <button
               type="button"

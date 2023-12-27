@@ -10,6 +10,7 @@ import { SessionProvider } from "next-auth/react";
 import React from "react";
 import PrelineScript from "./components/PrelineScript";
 import { SessionProviders } from "./SessionProviders";
+import { getCurrentUser } from "./actions/getCurrentUser";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,6 +32,9 @@ export default async function RootLayout({
   parallel: React.ReactNode;
   children: React.ReactNode;
 }) {
+
+  const currentUser = await getCurrentUser()
+
   return (
     <html lang="en" className="light" style={{ colorScheme: "light" }}>
       <body className={inter.className}>
@@ -38,7 +42,7 @@ export default async function RootLayout({
           <ReduxProvider>
             <ThemeProviders>
               <div className="relative dark:bg-neutral-900">
-                <Header />
+                <Header  currentUser={currentUser}/>
                 {parallel}
                 {children}
                 <Footer />

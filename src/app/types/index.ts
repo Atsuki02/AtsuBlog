@@ -69,3 +69,11 @@ export type SigninFormState = {
   errors: Record<keyof SigninFields, string> | undefined;
   fieldValues: SigninFields;
 };
+
+export type CurrentUser = {
+  id: number;
+  username: string;
+  email: string;
+  createdAt: Date;
+  updatedAt: Date;
+};

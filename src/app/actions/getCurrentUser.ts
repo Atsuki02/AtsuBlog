@@ -1,4 +1,4 @@
-
+'use server'
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { db } from "@/app/lib/db";
 import { getServerSession } from "next-auth/next";
@@ -16,6 +16,14 @@ export async function getCurrentUser() {
       where: {
         email: session.user.email,
       },
+      select: {
+        id: true,
+        username: true, 
+        email: true,
+        createdAt: true,
+        updatedAt: true
+      }
+      
     });
 
     if (!currentUser) return null;
