@@ -8,6 +8,7 @@ import { Post } from "@prisma/client";
 import PostItem from "./Post/PostItem";
 import Pagination from "./Pagination/Pagination";
 import { CurrentUser } from "../types";
+import { useSession } from "next-auth/react";
 
 interface TopBlogSectionProps {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -24,6 +25,9 @@ export function TopBlogSection({
   const page = searchParams["page"] ?? "1";
   const per_page = searchParams["per_page"] ?? "6";
   const pathname = usePathname();
+
+  const { data: session } = useSession();
+  console.log(session);
 
   const { data, isLoading } = useSWR(
     `/api/blog?page=${page}&per_page=${per_page}${searchURL && searchURL}`,

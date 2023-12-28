@@ -19,7 +19,19 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { email, name, password } = body;
+    const { email, name, password, termsAndConditions } = body;
+
+    // Check if the Terms and Conditions is accepted
+
+    if (!termsAndConditions) {
+      return NextResponse.json(
+        {
+          user: null,
+          message: "Please agree to the Terms and Conditions to proceed.",
+        },
+        { status: 409 },
+      );
+    }
 
     // check if email already exists
 

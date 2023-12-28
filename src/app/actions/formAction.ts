@@ -4,6 +4,9 @@ import { PostFields, PostFormState } from "@/app/types";
 
 import { ZodError } from "zod";
 import blogPostSchema from "../utils/zod/blogPostSchema";
+import { getCurrentUser } from "./getCurrentUser";
+import { getSession, useSession } from "next-auth/react";
+import { getServerSession } from "next-auth";
 
 // sign in func
 export const submitForm = async (FormData: FormData) => {
@@ -83,6 +86,12 @@ export async function submitPostAction(
     const uploadedImageData = await uploadResponse.json();
     const imageUrl = uploadedImageData.secure_url;
 
+    const currentUser = await getCurrentUser();
+    const session = await getServerSession();
+    console.log(session);
+
+    console.log(currentUser);
+
     const postData = {
       title: title.trim(),
       subTitle: subTitle.trim(),
@@ -101,8 +110,6 @@ export async function submitPostAction(
       },
       body: JSON.stringify(postData),
     });
-
-    console.log("sssssssssssssss");
 
     return {
       message: "success",

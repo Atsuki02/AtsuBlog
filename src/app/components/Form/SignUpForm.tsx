@@ -1,8 +1,8 @@
 "use client";
-import React, { ChangeEvent, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { submitForm } from "../../actions/formAction";
 import SignUpButton from "../Button/SignUpButton";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface Errors {
   name?: string;
@@ -12,26 +12,14 @@ interface Errors {
 }
 
 function SignUpForm() {
-  const [isTermsChecked, setIsTermsChecked] = useState(false);
   const [errors, setErrors] = useState<Errors>({});
   const router = useRouter();
   const ref = useRef<HTMLFormElement>(null);
-
-  const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setIsTermsChecked(e.target.checked);
-    if (e.target.checked) {
-      setErrors((prevErrors) => ({ ...prevErrors, terms: "" }));
-    }
-  };
 
   const submitFormHandler = async (formData: FormData) => {
     setErrors({});
 
     let newErrors: Errors = {};
-
-    if (!isTermsChecked) {
-      newErrors.terms = "Please accept terms and conditions";
-    }
 
     const result = await submitForm(formData);
 
@@ -46,6 +34,12 @@ function SignUpForm() {
 
       if (result.error.message === "8+ characters required") {
         newErrors.password = result.error.message;
+      }
+      if (
+        result.error.message ===
+        "Please agree to the Terms and Conditions to proceed."
+      ) {
+        newErrors.terms = result.error.message;
       }
     }
 
@@ -180,7 +174,7 @@ function SignUpForm() {
               name="terms-and-conditions"
               type="checkbox"
               className="pointer-events-none mt-0.5 shrink-0 rounded border-gray-200 text-blue-600 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:checked:border-blue-500 dark:checked:bg-blue-500 dark:focus:ring-offset-gray-800"
-              onChange={handleCheckboxChange}
+              // onChange={handleCheckboxChange}
             />
           </div>
           <div className="ms-3">
