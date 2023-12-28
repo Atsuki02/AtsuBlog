@@ -39,7 +39,7 @@ export const authOptions: AuthOptions = {
         return {
           id: user.id.toString(),
           email: user.email,
-          username: user.username,
+          name: user.name,
         };
       },
     }),
@@ -67,7 +67,7 @@ export const authOptions: AuthOptions = {
   pages: {
     signIn: "/auth/signin",
   },
-  // debug: process.env.NODE_ENV === "development",
+  debug: true,
   session: {
     strategy: "jwt",
   },

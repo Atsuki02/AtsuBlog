@@ -91,7 +91,7 @@ export const POST = async (req: Request, res: NextResponse) => {
   try {
     const { title, subTitle, content, image, category, userId } =
       await req.json();
-    const numericUserId = parseInt(userId, 10);
+
     const post = await prisma.post.create({
       data: {
         title,
@@ -99,7 +99,7 @@ export const POST = async (req: Request, res: NextResponse) => {
         image,
         category,
         content,
-        userId: numericUserId,
+        userId,
       },
     });
     return NextResponse.json({ message: "Success", post }, { status: 201 });

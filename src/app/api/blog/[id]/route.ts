@@ -8,7 +8,7 @@ import { NextResponse } from "next/server";
 //Get single post
 export const GET = async (req: Request, res: NextResponse) => {
   try {
-    const id: number = parseInt(req.url.split("/blog/")[1]);
+    const id: string = req.url.split("/blog/")[1];
     // await main();
     const post = await prisma.post.findFirst({ where: { id } });
     return NextResponse.json({ message: "Success", post }, { status: 200 });
@@ -22,7 +22,7 @@ export const GET = async (req: Request, res: NextResponse) => {
 // Edit post
 export const PUT = async (req: Request, res: NextResponse) => {
   try {
-    const id: number = parseInt(req.url.split("/blog/")[1]);
+    const id: string = req.url.split("/blog/")[1];
 
     const { title, subTitle, content, image, category, userId } =
       await req.json();
@@ -42,7 +42,7 @@ export const PUT = async (req: Request, res: NextResponse) => {
 // Delete post
 export const DELETE = async (req: Request, res: NextResponse) => {
   try {
-    const id: number = parseInt(req.url.split("/blog/")[1]);
+    const id: string = req.url.split("/blog/")[1];
 
     // await main();
     const post = await prisma.post.delete({

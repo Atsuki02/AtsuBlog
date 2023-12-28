@@ -13,7 +13,7 @@ export const submitForm = async (FormData: FormData) => {
   const formTermsAndConditions = FormData.get("terms-and-conditions");
 
   const data = {
-    username: formName,
+    name: formName,
     email: formEmail,
     password: formPassword,
     termsAndConditions: formTermsAndConditions,
@@ -91,7 +91,7 @@ export async function submitPostAction(
       content: content.trim(),
 
       // TODO: Should be the userId of the logged-in user
-      userId: "1",
+      userId: "clqowg12m0000uf57ckhz3bap",
     };
 
     await fetch("http://localhost:3000/api/blog", {
@@ -101,6 +101,8 @@ export async function submitPostAction(
       },
       body: JSON.stringify(postData),
     });
+
+    console.log("sssssssssssssss");
 
     return {
       message: "success",

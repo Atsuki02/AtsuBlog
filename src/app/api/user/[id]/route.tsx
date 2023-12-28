@@ -8,10 +8,10 @@ import { NextResponse } from "next/server";
 
 //Get single post
 export const GET = async (req: Request, res: NextResponse) => {
-  const userId = parseInt(req.url.split("/user/")[1]);
+  const userId = req.url.split("/user/")[1];
   try {
     const user = await db.user.findUnique({
-      where: { id: Number(userId) },
+      where: { id: userId },
       include: {
         post: true,
         likes: true,

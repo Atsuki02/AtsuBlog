@@ -8,7 +8,7 @@ export async function GET() {
 }
 
 // const userSchema = z.object({
-//   username: z.string().min(1, "Username is required").max(100),
+//   name: z.string().min(1, "name is required").max(100),
 //   email: z.string().min(1, "Email is required").email("Invalid email"),
 //   password: z
 //     .string()
@@ -19,7 +19,7 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { email, username, password } = body;
+    const { email, name, password } = body;
 
     // check if email already exists
 
@@ -37,16 +37,16 @@ export async function POST(req: Request) {
       );
     }
 
-    // check if username already exists
-    const existingUserByUsername = await db.user.findUnique({
-      where: { username: username },
+    // check if name already exists
+    const existingUserByname = await db.user.findUnique({
+      where: { name: name },
     });
 
-    if (existingUserByUsername) {
+    if (existingUserByname) {
       return NextResponse.json(
         {
           user: null,
-          message: "User with this username already exists",
+          message: "User with this name already exists",
         },
         { status: 409 },
       );
@@ -70,7 +70,7 @@ export async function POST(req: Request) {
 
     const newUser = await db.user.create({
       data: {
-        username,
+        name,
         email,
         password: hashedPassword,
       },

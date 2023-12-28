@@ -39,7 +39,7 @@ export default function NavMenu() {
               My post
             </li>
           </Link>
-          <Link href="/post">
+          <Link href="/create">
             <li className="flex w-full items-center justify-start py-2 text-black transition dark:text-white">
               Create post
             </li>

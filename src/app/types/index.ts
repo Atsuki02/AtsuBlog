@@ -1,18 +1,34 @@
 export interface User {
-  id: number;
+  id: string;
   email: string;
-  username: string;
+  name: string;
   password: string;
   posts: Post[];
   likes: Like[];
   comments: Comment[];
+  accounts: Account[];
   createdAt: Date;
   updatedAt: Date;
-  userId: number;
+  userId: string;
+}
+
+export interface Account {
+  id: string;
+  userId: string;
+  type: string;
+  provider: string;
+  providerAccountId: string;
+  refresh_token?: string | null;
+  access_token?: string | null;
+  expires_at?: number | null;
+  token_type?: string | null;
+  scope?: string | null;
+  id_token?: string | null;
+  session_state?: string | null;
 }
 
 export interface Post {
-  id: number;
+  id: string;
   title: string;
   subTitle: string;
   content: string;
@@ -20,27 +36,27 @@ export interface Post {
   category: string;
   date: Date;
   user?: User;
-  userId?: number | null;
+  userId?: string | null;
   likes: Like[];
   comments: Comment[];
 }
 
 export interface Like {
-  id: number;
+  id: string;
   post: Post;
-  postId: number;
+  postId: string;
   user: User;
-  userId: number;
+  userId: string;
   createdAt: Date;
 }
 
 export interface Comment {
-  id: number;
+  id: string;
   content: string;
   post: Post;
-  postId: number;
+  postId: string;
   user: User;
-  userId: number;
+  userId: string;
   createdAt: Date;
 }
 
@@ -71,8 +87,8 @@ export type SigninFormState = {
 };
 
 export type CurrentUser = {
-  id: number;
-  username: string;
+  id: string;
+  name: string;
   email: string;
   createdAt: Date;
   updatedAt: Date;

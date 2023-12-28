@@ -78,7 +78,7 @@ export default function Signin() {
                         name="email"
                         className="block w-full rounded-lg border-gray-200 px-4 py-3 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-700 dark:bg-slate-900 dark:text-gray-400 dark:focus:ring-gray-600"
                         aria-describedby="email-error"
-                        autoComplete="username"
+                        autoComplete="name"
                       />
                       <div className="pointer-events-none absolute inset-y-0 end-0 flex items-center pe-3">
                         {errors?.email?.message && (

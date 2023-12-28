@@ -50,7 +50,7 @@ export default function Blog({ params }: { params: { id: string } }) {
                         <div className="hs-tooltip inline-block [--placement:bottom] [--trigger:hover]">
                           <div className="hs-tooltip-toggle block cursor-pointer text-start sm:mb-1">
                             <span className="font-semibold text-gray-800 dark:text-gray-200">
-                              {user?.user?.username}
+                              {user?.user?.name}
                             </span>
 
                             {/*TODO: This is for profile feature */}
@@ -73,7 +73,7 @@ export default function Blog({ params }: { params: { id: string } }) {
 
                               <div className="grow">
                                 <p className="text-lg font-semibold text-gray-200">
-                                  {user?.user?.username}
+                                  {user?.user?.name}
                                 </p>
                               </div>
                             </div>

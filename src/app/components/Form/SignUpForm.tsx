@@ -5,7 +5,7 @@ import SignUpButton from "../Button/SignUpButton";
 import { usePathname, useRouter } from "next/navigation";
 
 interface Errors {
-  username?: string;
+  name?: string;
   email?: string;
   password?: string;
   terms?: string;
@@ -36,8 +36,8 @@ function SignUpForm() {
     const result = await submitForm(formData);
 
     if (result?.error) {
-      if (result.error.message === "User with this username already exists") {
-        newErrors.username = result.error.message;
+      if (result.error.message === "User with this name already exists") {
+        newErrors.name = result.error.message;
       }
 
       if (result.error.message === "User with this email already exists") {
@@ -78,7 +78,7 @@ function SignUpForm() {
               required
               aria-describedby="fullName-error"
             />
-            {errors.username && (
+            {errors.name && (
               <div className="pointer-events-none absolute inset-y-0 end-0 flex items-center pe-3">
                 <svg
                   className="h-5 w-5 text-red-500"
@@ -93,9 +93,9 @@ function SignUpForm() {
               </div>
             )}
           </div>
-          {errors.username && (
+          {errors.name && (
             <p className="mt-2 text-xs text-red-600" id="fullName-error">
-              {errors.username}
+              {errors.name}
             </p>
           )}
         </div>
