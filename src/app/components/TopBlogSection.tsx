@@ -12,13 +12,9 @@ import { useSession } from "next-auth/react";
 
 interface TopBlogSectionProps {
   searchParams: { [key: string]: string | string[] | undefined };
-  currentUser: CurrentUser | null;
 }
 
-export function TopBlogSection({
-  searchParams,
-  currentUser,
-}: TopBlogSectionProps) {
+export function TopBlogSection({ searchParams }: TopBlogSectionProps) {
   const router = useRouter();
   const [searchURL, setSearchURL] = useState("");
   const fetcher = (url: string) => fetch(url).then((res) => res.json());

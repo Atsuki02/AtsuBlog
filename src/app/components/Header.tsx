@@ -8,19 +8,24 @@ import { greatVibes } from "../layout";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { usePathname, useRouter } from "next/navigation";
-import { CurrentUser } from "../types";
 import { signOut, useSession } from "next-auth/react";
+import { toast } from "react-toastify";
 
-function Header({ currentUser }: { currentUser: CurrentUser | null }) {
+function Header() {
   const path = usePathname();
   const { data: session, status } = useSession();
   const isAuthenticated = status === "authenticated";
   const { isOpen } = useSelector((state: RootState) => state.nav);
   const router = useRouter();
 
-  const handleLogOut = () => {
-    signOut();
-    router.push("/");
+  const handleLogOut = async () => {
+    const result = await signOut({ redirect: false, callbackUrl: "/" });
+    if (result.url) {
+      toast.info("You have been logged out.");
+      router.push(result.url);
+    } else {
+      toast.error("Error occurred during logout.");
+    }
   };
 
   return (

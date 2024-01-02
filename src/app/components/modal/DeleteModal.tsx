@@ -1,10 +1,29 @@
+import { deleteBlog } from "@/app/actions/DeleteBlog";
 import { setIsOpen } from "@/app/redux/slices/modalSlice";
 import { AppDispatch, RootState } from "@/app/redux/store";
-import React from "react";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
-function DeleteModal() {
+function DeleteModal({ postId }: { postId: string }) {
+  const [isDeleting, setIsDeleting] = useState(false);
   const dispatch: AppDispatch = useDispatch();
+
+  const router = useRouter();
+  const handleDelete = async () => {
+    setIsDeleting(true);
+    const res = await deleteBlog(postId);
+    if (res.message === "Success") {
+      dispatch(setIsOpen(false));
+      router.push("/");
+      toast.success("Post deleted successfully.");
+    } else {
+      toast.success("Failed to delete the post. Please try again.");
+    }
+    setIsDeleting(false);
+  };
+
   return (
     <>
       <div
@@ -75,12 +94,13 @@ function DeleteModal() {
               >
                 Cancel
               </button>
-              <a
+              <button
+                onClick={handleDelete}
+                disabled={isDeleting}
                 className="inline-flex items-center gap-x-2 rounded-lg border border-transparent bg-red-500 px-3 py-2 text-sm font-semibold text-white hover:bg-red-600 disabled:pointer-events-none disabled:opacity-50 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                href="#"
               >
-                Delete personal account
-              </a>
+                {isDeleting ? "Deleting..." : "Delete your post"}
+              </button>
             </div>
           </div>
         </div>

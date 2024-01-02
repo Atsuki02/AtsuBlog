@@ -1,14 +1,11 @@
 import { greatVibes } from "./layout";
 import TopBlogSection from "./components/TopBlogSection";
-import { getCurrentUser } from "./actions/getCurrentUser";
 
 export default async function Home({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const currentUser = await getCurrentUser();
-
   return (
     <div className="min-h-screen-minus-80 px-6 pb-28 pt-6 sm:py-28">
       <div className=" my-16 flex flex-col items-center justify-center sm:mt-8 sm:block">
@@ -21,7 +18,7 @@ export default async function Home({
           Journeying Through the World of...
         </p>
       </div>
-      <TopBlogSection searchParams={searchParams} currentUser={currentUser} />
+      <TopBlogSection searchParams={searchParams} />
     </div>
   );
 }

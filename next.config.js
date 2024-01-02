@@ -7,7 +7,7 @@ const nextConfig = {
       process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_NAMEd,
   },
   images: {
-    domains: ["res.cloudinary.com"],
+    domains: ["res.cloudinary.com", "lh3.googleusercontent.com"],
   },
   experimental: {
     serverComponentsExternalPackages: ["@prisma.client", "bcrypt"],

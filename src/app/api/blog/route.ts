@@ -1,38 +1,6 @@
 import prisma, { main } from "@/app/utils/prisma";
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { NextResponse } from "next/server";
-
-// import cloudinary from "next-cloudinary";
-
-// cloudinary.config({
-//   cloud_name: "YOUR_CLOUD_NAME",
-//   api_key: "YOUR_API_KEY",
-//   api_secret: "YOUR_API_SECRET",
-// });
-
-// const prisma = new PrismaClient();
-
-// export async function main() {
-//   try {
-//     await prisma.$connect();
-//   } catch (err) {
-//     return Error("Failed to connect database");
-//   }
-// }
-
-// Get all posts
-
-// export const GET = async (req: Request, res: NextResponse) => {
-//   try {
-//     // await main();
-//     const posts = await prisma.post.findMany();
-//     return NextResponse.json({ message: "Success", posts }, { status: 200 });
-//   } catch (err) {
-//     return NextResponse.json({ message: "Error", err }, { status: 500 });
-//   } finally {
-//     await prisma.$disconnect();
-//   }
-// };
 
 // Get Posts per page
 

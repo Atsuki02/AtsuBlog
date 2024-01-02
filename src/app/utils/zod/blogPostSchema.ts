@@ -1,4 +1,3 @@
-import { File } from "buffer";
 import * as z from "zod";
 
 const fileSchema = z.object({
@@ -20,7 +19,7 @@ const blogPostSchema = z.object({
     .max(100, { message: "Subtitle must be 100 characters or less long" }),
 
   //TODO: need to modify the error message
-  image: fileSchema,
+  image: fileSchema.optional(),
   category: z.string().min(1, { message: "Category is required" }),
   content: z
     .string()

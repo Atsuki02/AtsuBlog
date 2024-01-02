@@ -50,11 +50,11 @@ export async function POST(req: Request) {
     }
 
     // check if name already exists
-    const existingUserByname = await db.user.findUnique({
+    const existingUserByName = await db.user.findUnique({
       where: { name: name },
     });
 
-    if (existingUserByname) {
+    if (existingUserByName) {
       return NextResponse.json(
         {
           user: null,

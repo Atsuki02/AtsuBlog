@@ -9,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginFormSchema } from "@/app/utils/zod/loginFormSchema";
 import { signIn } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
-import { revalidatePath } from "next/cache";
+import { toast } from "react-toastify";
 
 interface SigninForm {
   email?: string;
@@ -33,9 +33,12 @@ function SigninForm() {
       ...data,
       redirect: false,
     }).then((callback) => {
-      console.log(callback);
       if (callback?.ok) {
-        router.push("/");
+        toast.success("You have successfully logged in.");
+        router.replace("/");
+      } else {
+        const error = callback?.error || "Login failed. Please try again.";
+        toast.error(error);
       }
     });
   };

@@ -1,19 +1,22 @@
 "use client";
 import { ExclamationCircleIcon } from "@heroicons/react/24/solid";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
-import { useFormState, useFormStatus } from "react-dom";
+import { useFormState } from "react-dom";
 import { submitPostAction } from "../actions/formAction";
 import clsx from "clsx";
 import DeleteButton from "../components/Button/DeleteButton";
 import CreateButton from "../components/Button/CreateButton";
-import DeleteModal from "../components/modal/DeleteModal";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsOpen } from "../redux/slices/modalSlice";
 import { AppDispatch, RootState } from "../redux/store";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import DiscardModal from "../components/modal/DiscardModal";
 
 export default function Post() {
   const { isOpen } = useSelector((state: RootState) => state.modal);
   const dispatch: AppDispatch = useDispatch();
+  const router = useRouter();
   const [formState, formAction] = useFormState(submitPostAction, {
     message: "",
     errors: undefined,
@@ -47,6 +50,10 @@ export default function Post() {
   useEffect(() => {
     if (formState.message === "success") {
       formRef.current?.reset();
+      router.back();
+      toast.success("Post published successfully.");
+    } else if (formState.message === "error") {
+      toast.error("An error occurred while posting. Please try again.");
     }
   }, [formState]);
 
@@ -55,14 +62,14 @@ export default function Post() {
       <div className="mx-auto max-w-2xl">
         <div className="mx-4 flex justify-between">
           {/* when creating new post */}
-          {/* <h2 className="text-xl font-bold text-gray-800 dark:text-white sm:text-3xl">
+          <h2 className="text-xl font-bold text-gray-800 dark:text-white sm:text-3xl">
             Create new post
-          </h2> */}
+          </h2>
 
           {/* when editing */}
-          <h2 className="text-xl font-bold text-gray-800 dark:text-white sm:text-3xl">
+          {/* <h2 className="text-xl font-bold text-gray-800 dark:text-white sm:text-3xl">
             Edit post
-          </h2>
+          </h2> */}
 
           {/* when editing */}
           <button
@@ -253,8 +260,8 @@ export default function Post() {
                 <option value="" disabled hidden>
                   Select a category
                 </option>
-                <option>Tech</option>
-                <option>Finance</option>
+                <option>Technology</option>
+                <option>Lifestyle</option>
               </select>
               {formState.errors?.category && (
                 <div className="flex  items-center space-x-1 py-4">
@@ -305,30 +312,13 @@ export default function Post() {
             {/* When creating a new post */}
 
             <CreateButton />
-
-            {/* When editing a post */}
-
-            <div className="mt-5 flex justify-end gap-x-2">
-              <button
-                type="button"
-                className="inline-flex items-center gap-x-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-800 shadow-sm hover:bg-gray-50 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-700 dark:bg-slate-900 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                className="inline-flex items-center gap-x-2 rounded-lg border border-transparent bg-blue-600 px-3 py-2 text-sm font-semibold text-white hover:bg-blue-700 disabled:pointer-events-none disabled:opacity-50 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-              >
-                {/* {pending ? "Saving... " : "Save changes"} */}
-              </button>
-            </div>
           </form>
         </div>
       </div>
 
       {/* delete modal */}
 
-      {isOpen && <DeleteModal />}
+      {isOpen && <DiscardModal />}
     </div>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 import { signIn } from "next-auth/react";
 import React from "react";
+import { toast } from "react-toastify";
 
 function GoogleButton() {
   const clickHandler = async () => {
@@ -37,7 +38,7 @@ function GoogleButton() {
           fill="#EB4335"
         />
       </svg>
-      Log in with Google
+      Sign in with Google
     </button>
   );
 }

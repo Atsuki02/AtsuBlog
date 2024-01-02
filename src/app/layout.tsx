@@ -5,12 +5,10 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ThemeProviders from "../../ThemeProviders";
 import { ReduxProvider } from "./redux/Provider";
-import { SessionProvider } from "next-auth/react";
 import React from "react";
-
 import { SessionProviders } from "./SessionProviders";
-import { getCurrentUser } from "./actions/getCurrentUser";
 import PrelineScript from "./components/PrelineScript";
+import ToastProvider from "./ToastProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,8 +30,6 @@ export default async function RootLayout({
   parallel: React.ReactNode;
   children: React.ReactNode;
 }) {
-  const currentUser = await getCurrentUser();
-
   return (
     <html lang="en" className="light" style={{ colorScheme: "light" }}>
       <body className={inter.className}>
@@ -41,11 +37,12 @@ export default async function RootLayout({
           <ReduxProvider>
             <ThemeProviders>
               <div className="relative dark:bg-neutral-900">
-                <Header currentUser={currentUser} />
+                <Header />
                 {parallel}
                 {children}
                 <Footer />
               </div>
+              <ToastProvider />
             </ThemeProviders>
           </ReduxProvider>
         </SessionProviders>

@@ -13,7 +13,7 @@ export const GET = async (req: Request, res: NextResponse) => {
     const user = await db.user.findUnique({
       where: { id: userId },
       include: {
-        post: true,
+        posts: true,
         likes: true,
         comments: true,
       },

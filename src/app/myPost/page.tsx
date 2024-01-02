@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import useSWR from "swr";
@@ -9,6 +8,7 @@ import Pagination from "../components/Pagination/Pagination";
 import MyPostItem from "../components/Post/MyPostItem";
 import Loader from "../components/Loader/Loader";
 import { Post } from "@prisma/client";
+import { useSession } from "next-auth/react";
 
 export default function MyPost({
   searchParams,
@@ -21,9 +21,9 @@ export default function MyPost({
   const page = searchParams["page"] ?? "1";
   const per_page = searchParams["per_page"] ?? "6";
 
-  const { data, isLoading } = useSWR(`/api/user/1`, fetcher);
-
-  //TODO: The user should be dynamic depending on who's is the user.
+  const { data: session } = useSession();
+  const { data, isLoading } = useSWR(`/api/user/${session?.user.id}`, fetcher);
+  console.log(data);
 
   // When the search query changes, set page to 1 and set new search query
 
@@ -48,8 +48,13 @@ export default function MyPost({
       </div>
       {isLoading && <Loader />}
       <div className="mx-auto mt-4 grid gap-6 py-6 dark:text-slate-800 sm:mt-8 lg:grid-cols-2">
-        {data?.user?.post?.map((post: Post) => (
-          <MyPostItem key={post.id} post={post} />
+        {data?.user?.posts?.map((post: Post) => (
+          <MyPostItem
+            key={post.id}
+            post={post}
+            image={data.user.image}
+            name={data.user.name}
+          />
         ))}
       </div>
       <Pagination path="myPost" totalPosts={data?.user?.post?.length} />

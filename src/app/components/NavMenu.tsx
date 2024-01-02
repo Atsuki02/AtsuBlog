@@ -4,9 +4,26 @@ import { navMenuShowVariantsFromLeft } from "../lib/motion";
 import ThemeSwitcher from "./ThemeSwitcher";
 import Link from "next/link";
 import { useMediaQuery } from "../lib/useMediaQuery";
+import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function NavMenu() {
   const matches = useMediaQuery("(min-width: 675px)");
+  const { status } = useSession();
+  const isAuthenticated = status === "authenticated";
+  const router = useRouter();
+
+  const handleLogOut = async () => {
+    const result = await signOut({ redirect: false, callbackUrl: "/" });
+    if (result.url) {
+      toast.info("You have been logged out.");
+      router.push(result.url);
+    } else {
+      toast.error("Error occurred during logout.");
+    }
+  };
+
   return (
     <AnimatePresence>
       <motion.nav
@@ -31,8 +48,12 @@ export default function NavMenu() {
             <Link href="/latest">
               <div className="flex items-start dark:text-white">Latest</div>
             </Link>
-            <div className="flex items-start dark:text-white">Tech</div>
-            <div className="flex items-start dark:text-white">Others</div>
+            <Link href="/technology">
+              <div className="flex items-start dark:text-white">Technology</div>
+            </Link>
+            <Link href="/lifestyle">
+              <div className="flex items-start dark:text-white">Lifestyle</div>
+            </Link>
           </div>
           <Link href="/myPost">
             <li className="flex w-full items-center justify-start py-2 text-black transition dark:text-white">
@@ -45,9 +66,16 @@ export default function NavMenu() {
             </li>
           </Link>
           <li className=" box-border flex w-full items-center justify-between border-t-[1px] py-4 pr-2 text-black transition dark:text-white">
-            <Link href="/auth/signin">
-              <div>Signin</div>
-            </Link>
+            {!isAuthenticated ? (
+              <Link href="/auth/signin">
+                <div>Login</div>
+              </Link>
+            ) : (
+              <div className="cursor-pointer" onClick={handleLogOut}>
+                Logout
+              </div>
+            )}
+
             <ThemeSwitcher />
           </li>
         </ul>

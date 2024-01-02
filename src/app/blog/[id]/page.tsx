@@ -1,10 +1,12 @@
 "use client";
 
+import { getCurrentUser } from "@/app/actions/getCurrentUser";
 import TweetButton from "@/app/components/Button/TweetButton";
 import Loader from "@/app/components/Loader/Loader";
 import { calculateReadingTime, formatDate } from "@/app/utils/format";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import useSWR from "swr";
 
 export default function Blog({ params }: { params: { id: string } }) {
@@ -17,6 +19,12 @@ export default function Blog({ params }: { params: { id: string } }) {
     `/api/user/${post?.post?.userId}`,
     fetcher,
   );
+
+  const router = useRouter();
+
+  const { data: session } = useSession();
+
+  const isEditable = post?.post?.userId === session?.user?.id;
 
   const readingTime = calculateReadingTime(post?.post?.content);
   const pathname = usePathname();
@@ -35,13 +43,19 @@ export default function Blog({ params }: { params: { id: string } }) {
               <div className="mb-6 flex items-center justify-between">
                 <div className="flex w-full gap-x-5 sm:items-center sm:gap-x-3">
                   <div className="flex-shrink-0">
-                    <Image
-                      height={300}
-                      width={300}
-                      src={post?.post?.image}
-                      className="h-12 w-12 rounded-full"
-                      alt="Image Description"
-                    />
+                    {user?.user?.image ? (
+                      <Image
+                        height={300}
+                        width={300}
+                        src={user?.user?.image}
+                        className="h-12 w-12 rounded-full"
+                        alt={user?.user?.name}
+                      />
+                    ) : (
+                      <span className="inline-flex h-12 w-12 items-center justify-center rounded-full border-2 border-white bg-gray-500 text-xs font-semibold leading-none text-white">
+                        {user?.user.name?.[0]?.toUpperCase()}
+                      </span>
+                    )}
                   </div>
 
                   <div className="grow">
@@ -137,10 +151,23 @@ export default function Blog({ params }: { params: { id: string } }) {
                         </ul>
                       </div>
 
-                      <TweetButton
-                        title={post?.post?.title}
-                        url={`https://localhost${pathname}`}
-                      />
+                      <div className="flex justify-between space-x-3">
+                        <TweetButton
+                          title={post?.post?.title}
+                          url={`https://localhost${pathname}`}
+                        />
+                        {isEditable && (
+                          <button
+                            onClick={() =>
+                              router.push(`/edit/${post?.post?.id}`)
+                            }
+                            type="button"
+                            className="inline-flex w-full items-center justify-center gap-x-2 rounded-lg border border-transparent bg-blue-600  px-4 py-1.5  text-sm font-semibold text-white hover:bg-blue-700 disabled:pointer-events-none disabled:opacity-50 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                          >
+                            Edit
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -163,14 +190,14 @@ export default function Blog({ params }: { params: { id: string } }) {
                     height={300}
                     width={300}
                     src={post?.post?.image}
-                    alt="Image Description"
+                    alt={post?.post?.title}
                   />
                   {/* <figcaption className="mt-3 text-center text-sm text-gray-500">
                 A woman sitting at a table.
               </figcaption> */}
                 </figure>
 
-                <p className="text-lg text-gray-800 dark:text-gray-200">
+                <p className="break-words text-lg text-gray-800 dark:text-gray-200">
                   {post?.post?.content}
                 </p>
 

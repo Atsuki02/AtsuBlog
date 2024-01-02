@@ -3,7 +3,7 @@ import CloseButton from "@/app/components/Button/CloseButton";
 import GoogleButton from "@/app/components/Button/GoogleButton";
 import SigninForm from "@/app/components/Form/SigninForm";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { MouseEvent } from "react";
 
 export default function SigninModal() {
@@ -14,6 +14,12 @@ export default function SigninModal() {
   if (!pathname.includes("auth")) {
     return null;
   }
+
+  const router = useRouter();
+
+  const handleNavigate = () => {
+    router.replace("/auth/signup");
+  };
 
   return (
     <div
@@ -33,11 +39,12 @@ export default function SigninModal() {
               </h2>
               <p className="mt-2  text-sm text-gray-600 dark:text-gray-400">
                 Don't have an account yet?
-                <Link href="/auth/signup">
-                  <span className="font-medium text-blue-600 decoration-2 hover:underline dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-                    Sign up here
-                  </span>
-                </Link>
+                <span
+                  onClick={handleNavigate}
+                  className="font-medium text-blue-600 decoration-2 hover:underline dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                >
+                  Sign up here
+                </span>
               </p>
             </div>
 
